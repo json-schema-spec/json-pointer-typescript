@@ -1,4 +1,4 @@
-import Ptr, { InvalidPtrError } from "./index";
+import Ptr, { InvalidPtrError, EvalError } from "./index";
 
 describe("Ptr", () => {
   describe("parse", () => {
@@ -33,6 +33,26 @@ describe("Ptr", () => {
       expect(() => {
         Ptr.parse(" ");
       }).toThrowError(new InvalidPtrError(" "));
+    });
+  });
+
+  describe("eval", () => {
+    it("handles evaluating JSON pointers against any input", () => {
+      expect(Ptr.parse("").eval(null)).toEqual(null);
+      expect(Ptr.parse("").eval(true)).toEqual(true);
+      expect(Ptr.parse("").eval(3.14)).toEqual(3.14);
+      expect(Ptr.parse("").eval("foo")).toEqual("foo");
+      expect(Ptr.parse("").eval([])).toEqual([]);
+      expect(Ptr.parse("").eval({})).toEqual({});
+      expect(Ptr.parse("/foo").eval({ foo: "bar" })).toEqual("bar");
+      expect(Ptr.parse("/0").eval(["bar"])).toEqual("bar");
+      expect(Ptr.parse("/foo/1/bar").eval({foo: [null, { bar: "x" }]})).toEqual("x");
+    });
+
+    it("returns an error when an instance lacks a property", () => {
+      expect(() => { Ptr.parse("/foo").eval(3.14) }).toThrow(new EvalError(3.14, "foo"));
+      expect(() => { Ptr.parse("/0").eval([]) }).toThrow(new EvalError([], "0"));
+      expect(() => { Ptr.parse("/foo").eval({}) }).toThrow(new EvalError({}, "foo"));
     });
   });
 });

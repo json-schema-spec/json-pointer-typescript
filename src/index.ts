@@ -37,6 +37,18 @@ export default class Ptr {
 
     return `/${tokens.join("/")}`;
   }
+
+  public eval(instance: any): any {
+    for (const token of this.tokens) {
+      if (instance.hasOwnProperty(token)) {
+        instance = instance[token];
+      } else {
+        throw new EvalError(instance, token);
+      }
+    }
+
+    return instance;
+  }
 }
 
 export class InvalidPtrError extends Error {
@@ -45,5 +57,16 @@ export class InvalidPtrError extends Error {
   constructor(ptr: string) {
     super(`Invalid JSON Pointer: ${ptr}`);
     this.ptr = ptr;
+  }
+}
+
+export class EvalError extends Error {
+  public instance: any;
+  public token: string;
+
+  constructor(instance: any, token: string) {
+    super(`Error evaluating JSON Pointer: no attribute ${token} on ${instance}`);
+    this.instance = instance;
+    this.token = token;
   }
 }
