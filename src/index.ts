@@ -1,10 +1,4 @@
 export default class Ptr {
-  public tokens: string[];
-
-  constructor(tokens: string[]) {
-    this.tokens = tokens;
-  }
-
   public static parse(s: string): Ptr {
     // From the ABNF syntax of JSON Pointer, the only valid initial character
     // for a JSON Pointer is "/". Empty strings are acceptable.
@@ -21,9 +15,15 @@ export default class Ptr {
     }
 
     const [, ...tokens] = s.split("/");
-    return new Ptr(tokens.map(token => {
+    return new Ptr(tokens.map((token) => {
       return token.replace("~1", "/").replace("~0", "~");
     }));
+  }
+
+  public tokens: string[];
+
+  constructor(tokens: string[]) {
+    this.tokens = tokens;
   }
 
   public toString(): string {
@@ -31,7 +31,7 @@ export default class Ptr {
       return "";
     }
 
-    const tokens = this.tokens.map(token => {
+    const tokens = this.tokens.map((token) => {
       return token.replace("~", "~0").replace("/", "~1");
     });
 

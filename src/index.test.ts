@@ -1,4 +1,4 @@
-import Ptr, { InvalidPtrError, EvalError } from "./index";
+import Ptr, { EvalError, InvalidPtrError } from "./index";
 
 describe("Ptr", () => {
   describe("parse", () => {
@@ -8,16 +8,16 @@ describe("Ptr", () => {
       // https://tools.ietf.org/html/rfc6901#section-5
       const cases = {
         "": [],
-        "/foo": ["foo"],
-        "/foo/0": ["foo", "0"],
         "/": [""],
+        "/ ": [" "],
         "/a~1b": ["a/b"],
         "/c%d": ["c%d"],
         "/e^f": ["e^f"],
+        "/foo": ["foo"],
+        "/foo/0": ["foo", "0"],
         "/g|h": ["g|h"],
         "/i\\j": ["i\\j"],
         "/k\"l": ["k\"l"],
-        "/ ": [" "],
         "/m~0n": ["m~n"],
         "/o~0~1p/q~1~0r": ["o~/p", "q/~r"],
       };
@@ -50,9 +50,9 @@ describe("Ptr", () => {
     });
 
     it("returns an error when an instance lacks a property", () => {
-      expect(() => { Ptr.parse("/foo").eval(3.14) }).toThrow(new EvalError(3.14, "foo"));
-      expect(() => { Ptr.parse("/0").eval([]) }).toThrow(new EvalError([], "0"));
-      expect(() => { Ptr.parse("/foo").eval({}) }).toThrow(new EvalError({}, "foo"));
+      expect(() => { Ptr.parse("/foo").eval(3.14); }).toThrow(new EvalError(3.14, "foo"));
+      expect(() => { Ptr.parse("/0").eval([]); }).toThrow(new EvalError([], "0"));
+      expect(() => { Ptr.parse("/foo").eval({}); }).toThrow(new EvalError({}, "foo"));
     });
   });
 });
