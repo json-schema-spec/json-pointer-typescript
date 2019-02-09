@@ -1,8 +1,10 @@
-# json-pointer
+# json-pointer [![Documentation][typedoc-shield]][typedocs]
 
 This package provides a TypeScript and JavaScript implementation of [RFC6901
 JavaScript Object Notation (JSON) Pointer][rfc6901].
 
+[typedoc-shield]: https://img.shields.io/badge/typedoc-reference-blue.svg
+[typedocs]: https://json-schema-spec.github.io/json-pointer-typescript/
 [rfc6901]: https://tools.ietf.org/html/rfc6901
 
 ## Usage
