@@ -26,7 +26,7 @@ export default class Ptr {
 
     const [, ...tokens] = s.split("/");
     return new Ptr(tokens.map((token) => {
-      return token.replace("~1", "/").replace("~0", "~");
+      return token.replace(/~1/g, "/").replace(/~0/g, "~");
     }));
   }
 
@@ -58,7 +58,7 @@ export default class Ptr {
     }
 
     const tokens = this.tokens.map((token) => {
-      return token.replace("~", "~0").replace("/", "~1");
+      return token.replace(/~/g, "~0").replace(/\//g, "~1");
     });
 
     return `/${tokens.join("/")}`;

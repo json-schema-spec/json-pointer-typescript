@@ -20,6 +20,7 @@ describe("Ptr", () => {
         "/k\"l": ["k\"l"],
         "/m~0n": ["m~n"],
         "/o~0~1p/q~1~0r": ["o~/p", "q/~r"],
+        "/~0~0~0~0~0~1~1~1~1~1": ["~~~~~/////"],
       };
 
       for (const [input, output] of Object.entries(cases)) {
