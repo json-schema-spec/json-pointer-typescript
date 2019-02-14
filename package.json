@@ -18,7 +18,7 @@
       "ts"
     ]
   },
-  "name": "@json-schema-spec/json-pointer-typescript",
+  "name": "@json-schema-spec/json-pointer",
   "version": "0.1.1",
   "main": "lib/index.js",
   "repository": "git@github.com:json-schema-spec/json-pointer-typescript.git",
